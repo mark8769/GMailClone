@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
 // Use buttons to toggle between views
   document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
@@ -22,13 +23,34 @@ function compose_email() {
 }
 
 function load_mailbox(mailbox) {
-  
+
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
-
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  getEmails(mailbox);
+}
+
+function getEmails(mailbox){
+  // make a fetch request here to load all the mails.
+  fetch(`http://localhost:8000/emails/${mailbox}`)
+  .then(response => response.json())
+  .then(result => {
+    console.log(result);
+    let view = document.querySelector("#emails-view");
+    result.forEach(element =>{
+      let newDiv = document.createElement("div");
+      newDiv.classList.add("inbox-email");
+      let from = `<span>${element.sender}</span>`;
+      // let to = `<span>${element.recipients}</span>`;
+      let subject = `<span>${element.subject}</span>`;
+      let body = `<span>${element.body}</span>`;
+      let timestamp = `<span>${element.timestamp}</span>`;
+      newDiv.innerHTML = from + subject + body + timestamp;
+      view.appendChild(newDiv);
+    })
+  });
 }
 
 function sendEmail(){
@@ -50,7 +72,7 @@ function sendEmail(){
   let body = document.getElementById("compose-body").value;
 
   console.log("sending request");
-  fetch("http://127.0.0.1:8000/emails",{
+  fetch("http://localhost:8000/emails/",{
     method: "POST",
     body: JSON.stringify({
       recipients: recipients,
