@@ -15,20 +15,24 @@
     </div>
 
     <div id="email-view">
+        <!-- Div for buttons, archive, delete? -->
+        <div class="form-group">
+            <button name="archive">Archive</button>
+        </div>
         <!-- Subject -->
         <div class="form-group">
-            <p id="email-subject" class="form-control"></p>
+            <p id="email-subject"></p>
         </div>
         <!-- From -->
-        <div class="form-group">
-            <p id="email-from" class="form-control"></p>
-            <p id="email-timestamp" class="form-control"></p>
+        <div class="form-group flex-container" id="email-line">
+            <span id="email-from"></span>
+            <span id="email-timestamp"></span>
         </div>
         <div class="form-group">
-            <p id="email-body" class="form-control"></p>
+            <p id="email-body"></p>
         </div>
     </div>
-    
+
     <div id="compose-view">
         <h3>New Email</h3>
         <form id="compose-form">
