@@ -7,11 +7,19 @@ textarea {
     border: .5px black solid;
     margin: 2px;
 }
+.flex-container{
+    display: flex;
+    display: row;
+    justify-content: space-between;
+}
 span{
     display: block;
 }
 .inbox-email > span{
     flex-basis: 25%;
+}
+#email-line > span{
+    display: inline;
 }
 /* .inbox-email:nth-child(1){
     flex-grow: 1;
