@@ -21,6 +21,9 @@ span{
 #email-line > span{
     display: inline;
 }
+.read{
+    background-color: grey;
+}
 /* .inbox-email:nth-child(1){
     flex-grow: 1;
 }
