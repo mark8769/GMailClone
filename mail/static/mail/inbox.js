@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
   document.getElementById('submit-compose').addEventListener('click', sendEmail);
+  document.getElementById("archive").addEventListener("click", setEmailArchived);
   // By default, load the inbox
   load_mailbox('inbox');
 });
@@ -26,7 +27,8 @@ function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
-  document.getElementById("email-view").style.display = "none"
+  document.getElementById("email-view").style.display = "none";
+  document.getElementById("archive").style.display = "none";
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
   getEmails(mailbox);
@@ -42,6 +44,9 @@ function getEmails(mailbox){
     result.forEach(element =>{
       let newDiv = document.createElement("div");
       newDiv.classList.add("inbox-email");
+      if (element.read){
+        newDiv.classList.add("read");
+      }
       newDiv.setAttribute("id", `${element.id}`)
       let from = `<span>${element.sender}</span>`;
       // let to = `<span>${element.recipients}</span>`;
@@ -61,35 +66,33 @@ function addEmailListeners(){
   })
 }
 function showEmail(){
-  document.getElementById("email-view").style.display = "block"
+  document.getElementById("email-view").style.display = "block";
+  document.getElementById("archive").style.display = "block";
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector("#email-view > span").id = this.id;
   getEmailById(this.id);
 }
 function setEmailReadById(id){
   console.log("Setting email to read");
   fetch(`http://localhost:8000/emails/${id}`,{
     method: "PUT",
-    body: JSON.stringify({read: True})    
-  })
-  .then(response => response.json())
-  .then(resp => {
-    console.log(resp);
+    body: JSON.stringify({read: true})    
   })
 }
-function setEmailArchived(id){
+function setEmailArchived(){
   console.log("Setting email to archived");
+  let id = document.querySelector("#email-view > span").id;
   fetch(`http://localhost:8000/emails/${id}`,{
     method: "PUT",
-    body: JSON.stringify({archived: True})
+    body: JSON.stringify({archived: true})
   })
-  .then(response => response.json())
-  .then(resp => {
-    console.log(resp);
+  .then(response => {
+    console.log(response);
+    load_mailbox("inbox");
   })
 }
 function getEmailById(id){
-  console.log("fetching email details.");
   fetch(`http://localhost:8000/emails/${id}`)
   .then(response => response.json())
   .then(email => {
@@ -98,9 +101,9 @@ function getEmailById(id){
     document.getElementById("email-from").innerHTML = email.sender;
     document.getElementById("email-timestamp").innerHTML = email.timestamp;
     document.getElementById("email-body").innerHTML = email.body;
+    setEmailReadById(id);
   });
 }
-
 function sendEmail(){
 
   console.log("clicked");
