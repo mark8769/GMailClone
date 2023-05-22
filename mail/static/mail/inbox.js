@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#compose').addEventListener('click', compose_email);
   document.getElementById('submit-compose').addEventListener('click', sendEmail);
   document.getElementById("archive").addEventListener("click", setEmailArchived);
+  document.getElementById("reply").addEventListener("click", reply);
   // By default, load the inbox
   load_mailbox('inbox');
 });
@@ -88,10 +89,17 @@ function setEmailReadById(id){
 }
 function setEmailArchived(){
   console.log("Setting email to archived.");
+  let archiveButton = document.querySelector("#archive");
   let id = document.querySelector("#email-view > span").id;
+  if (archiveButton.innerHTML == "Archive"){
+    var changeTo = true;
+  }else{
+    var changeTo = false;
+  }
+  console.log("in archive, flag is " + changeTo);
   fetch(`http://localhost:8000/emails/${id}`,{
     method: "PUT",
-    body: JSON.stringify({archived: true})
+    body: JSON.stringify({archived: changeTo})
   })
   .then(response => {
     load_mailbox("inbox");
@@ -122,6 +130,13 @@ function isArchived(id){
     }
     archiveButton.style.display = "block";
   })
+}
+function reply(){
+  // Hide email view.
+  document.getElementById("email-view").style.display = "none";
+  compose_email();
+  let recipients = document.getElementById("email-from").innerHTML;
+  document.getElementById("compose-recipients").value = recipients;
 }
 
 function sendEmail(){
