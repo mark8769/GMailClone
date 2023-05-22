@@ -16,6 +16,7 @@ function compose_email() {
   console.log("compose email nav clicked.");
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector("#email-view").style.display = "none";
   document.querySelector('#compose-view').style.display = 'block';
 
   // Clear out composition fields
@@ -136,10 +137,20 @@ function reply(){
   document.getElementById("email-view").style.display = "none";
   compose_email();
   let recipients = document.getElementById("email-from").innerHTML;
+  let subject = document.getElementById("email-subject").innerHTML;
+  let body = document.getElementById("email-body").innerHTML;
+  let timestamp = document.getElementById("email-timestamp").innerHTML;
+  let preFilledBody = "On " + timestamp + " " + subject + " wrote: " + body;
+  if (subject.substr(0,2).toLowerCase !== "re:"){
+    subject = "Re: " + subject;
+  }
   document.getElementById("compose-recipients").value = recipients;
+  document.getElementById("compose-subject").value = subject;
+  document.getElementById("compose-body").value = preFilledBody;
 }
 
 function sendEmail(){
+  console.log("inside send email function");
   let recipients = document.getElementById("compose-recipients").value;
   let subject = document.getElementById("compose-subject").value;
   let body = document.getElementById("compose-body").value;
