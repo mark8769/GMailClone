@@ -29,6 +29,7 @@ function load_mailbox(mailbox) {
   document.querySelector('#compose-view').style.display = 'none';
   document.getElementById("email-view").style.display = "none";
   document.getElementById("archive").style.display = "none";
+  document.getElementById("unarchive").style.display = "none";
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
   getEmails(mailbox);
@@ -39,7 +40,6 @@ function getEmails(mailbox){
   fetch(`http://localhost:8000/emails/${mailbox}`)
   .then(response => response.json())
   .then(result => {
-    console.log(result);
     let view = document.querySelector("#emails-view");
     result.forEach(element =>{
       let newDiv = document.createElement("div");
@@ -59,36 +59,42 @@ function getEmails(mailbox){
     addEmailListeners();
   });
 }
+/*
+Add event listeners to email divs.
+*/
 function addEmailListeners(){
   let divs = document.querySelectorAll(".inbox-email");
   divs.forEach(element =>{
     element.addEventListener("click", showEmail);
   })
 }
+/*
+Show clicked email.
+*/
 function showEmail(){
   document.getElementById("email-view").style.display = "block";
-  document.getElementById("archive").style.display = "block";
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector("#email-view > span").id = this.id;
+  // Show archived or unarchived button on clicked email.
   getEmailById(this.id);
+  isArchived(this.id);
 }
 function setEmailReadById(id){
-  console.log("Setting email to read");
+  console.log("Setting email to read.");
   fetch(`http://localhost:8000/emails/${id}`,{
     method: "PUT",
     body: JSON.stringify({read: true})    
   })
 }
 function setEmailArchived(){
-  console.log("Setting email to archived");
+  console.log("Setting email to archived.");
   let id = document.querySelector("#email-view > span").id;
   fetch(`http://localhost:8000/emails/${id}`,{
     method: "PUT",
     body: JSON.stringify({archived: true})
   })
   .then(response => {
-    console.log(response);
     load_mailbox("inbox");
   })
 }
@@ -104,25 +110,23 @@ function getEmailById(id){
     setEmailReadById(id);
   });
 }
-function sendEmail(){
+function isArchived(id){
+  fetch(`http://localhost:8000/emails/${id}`)
+  .then(response => response.json())
+  .then(email => {
+    if (email.archived){
+      document.getElementById("archive").style.display = "block";
+    }else{
+      document.getElementById("unarchive").style.display = "block";
+    }
+  })
+}
 
-  console.log("clicked");
-  /* Prevent form from submitting right away, let django handle routing.
-  If we submit right away, fetch wont work since it is asynchronous.
-  It returns a promise that it will give you back the information at some point,
-  but doensn't know when. So if it happens before reload = no error. If it gets returned
-  after reloading the page (and reloading all sources again) then you will get an error.
-  */ 
-  // https://stackoverflow.com/questions/57240628/how-to-make-a-button-call-a-function-that-uses-the-fetch-api
-  //event.preventDefault();
-  // using type button instead of submit
-  //load_mailbox("sent");
-  // console.log("going home");
+function sendEmail(){
   let recipients = document.getElementById("compose-recipients").value;
   let subject = document.getElementById("compose-subject").value;
   let body = document.getElementById("compose-body").value;
 
-  console.log("sending request");
   fetch("http://localhost:8000/emails/",{
     method: "POST",
     body: JSON.stringify({
@@ -134,10 +138,6 @@ function sendEmail(){
   .then(response => response.json()) // no curly braces because returning right away
   .then(result => {
     console.log(result);
-    console.log("done");
-    console.log("loading sent mailbox");
     load_mailbox("sent");
-  }); // curly braces, because not returning console.log
-  // see if code is working, refreshes too fast
-  //time.sleep(3);
+  });
 }
