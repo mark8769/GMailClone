@@ -6,6 +6,9 @@ textarea {
     display: row;
     border: .5px black solid;
     margin: 2px;
+    max-height: 50px;
+    overflow-y: hidden;
+    over
 }
 .flex-container{
     display: flex;
@@ -22,7 +25,10 @@ span{
     display: inline;
 }
 .read{
-    background-color: grey;
+    background-color: #f3f6fc;
+}
+#email-subject{
+    font-size: 24px;
 }
 /* .inbox-email:nth-child(1){
     flex-grow: 1;
