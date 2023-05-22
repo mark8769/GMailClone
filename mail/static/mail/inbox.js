@@ -29,7 +29,6 @@ function load_mailbox(mailbox) {
   document.querySelector('#compose-view').style.display = 'none';
   document.getElementById("email-view").style.display = "none";
   document.getElementById("archive").style.display = "none";
-  document.getElementById("unarchive").style.display = "none";
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
   getEmails(mailbox);
@@ -114,11 +113,14 @@ function isArchived(id){
   fetch(`http://localhost:8000/emails/${id}`)
   .then(response => response.json())
   .then(email => {
+
+   let archiveButton = document.getElementById("archive");
     if (email.archived){
-      document.getElementById("archive").style.display = "block";
+      archiveButton.innerHTML = "Unarchive";
     }else{
-      document.getElementById("unarchive").style.display = "block";
+      archiveButton.innerHTML = "Archive";
     }
+    archiveButton.style.display = "block";
   })
 }
 
