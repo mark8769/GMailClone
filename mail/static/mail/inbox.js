@@ -140,7 +140,8 @@ function reply(){
   let subject = document.getElementById("email-subject").innerHTML;
   let body = document.getElementById("email-body").innerHTML;
   let timestamp = document.getElementById("email-timestamp").innerHTML;
-  let preFilledBody = "On " + timestamp + " " + subject + " wrote: " + body;
+  let stopper = "\n-------------------------------------------------------\n"
+  let preFilledBody = stopper + "On " + timestamp + " " + subject + " wrote: \n" + body;
   if (subject.substr(0,2).toLowerCase !== "re:"){
     subject = "Re: " + subject;
   }
@@ -155,7 +156,7 @@ function sendEmail(){
   let subject = document.getElementById("compose-subject").value;
   let body = document.getElementById("compose-body").value;
 
-  fetch("http://localhost:8000/emails/",{
+  fetch("http://localhost:8000/emails",{
     method: "POST",
     body: JSON.stringify({
       recipients: recipients,
