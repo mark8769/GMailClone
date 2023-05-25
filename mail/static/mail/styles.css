@@ -57,6 +57,34 @@ span{
 .flex-header > div{
     margin-top: auto;
 }
+/* .flex-header:last-child {
+    margin-left: auto;
+} */
+#user{
+    margin-left: auto;
+}
+.medium{
+    width: 70%;
+}
+img{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.button-color{
+    background-color: #c1e6ff;
+}
+#search{
+    width: 40%;
+    margin-right: auto;
+    margin-left: auto;
+    /* border-radius: 10px; */
+    border: .5px solid black;
+    border-radius: 10px;
+
+}
+#profile-photo{
+    
+}
 /* .inbox-email:nth-child(1){
     flex-grow: 1;
 }
