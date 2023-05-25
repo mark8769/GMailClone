@@ -8,7 +8,6 @@ textarea {
     margin: 2px;
     max-height: 50px;
     overflow-y: hidden;
-    over
 }
 .flex-container{
     display: flex;
@@ -29,6 +28,34 @@ span{
 }
 #email-subject{
     font-size: 24px;
+}
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Controlling_Ratios_of_Flex_Items_Along_the_Main_Ax */
+.side-nav{
+    flex: 1 1 0;
+    padding: 30px;
+    /* width: 20%; */
+}
+.main-content{
+    flex: 7 1 0;
+    padding: 30px;
+    /* width: 80%; */
+}
+.left-text{
+    text-align: left;
+}
+#back-button{
+    /* Remove button styling and use image only. */
+    background: none;
+	border: none;
+	cursor: pointer;
+}
+.flex-header{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+.flex-header > div{
+    margin-top: auto;
 }
 /* .inbox-email:nth-child(1){
     flex-grow: 1;
