@@ -32,7 +32,7 @@ function load_mailbox(mailbox) {
   document.getElementById("email-view").style.display = "none";
   document.getElementById("archive").style.display = "none";
   // Show the mailbox name
-  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  document.querySelector('#mailbox').innerHTML = `${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}`;
   getEmails(mailbox);
 }
 
@@ -42,6 +42,7 @@ function getEmails(mailbox){
   .then(response => response.json())
   .then(result => {
     let view = document.querySelector("#emails-view");
+    view.innerHTML = "";
     result.forEach(element =>{
       let newDiv = document.createElement("div");
       newDiv.classList.add("inbox-email");
