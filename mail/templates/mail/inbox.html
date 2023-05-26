@@ -5,13 +5,13 @@
 <!-- <h2>{{ request.user.email }}</h2> -->
     <div class="flex-container">
         <div class="side-nav">
-            <h2>Mail</h2>
-            <nav class="nav flex-column">
-                <button class="btn btn-sm btn-primary nav-link" id="compose">Compose</button>
-                <button class="left-text btn btn-sm nav-link" id="inbox">Inbox</button>
-                <button class="left-text btn btn-sm nav-link" id="sent">Sent</button>
-                <button class="left-text btn btn-sm nav-link" id="archived">Archived</button>
-                <a class="left-text btn-sm nav-link" href="{% url 'logout' %}">Log Out</a>
+            <h2><img src="{% static 'mail/appIcon.png' %}">Mail</h2>
+            <nav class="nav flex-column" id="nav">
+                <button class="button-color btn btn-sm nav-link medium" id="compose"><img src="{% static 'mail/pen.png' %}">Compose</button>
+                <button class="left-text btn btn-sm nav-link" id="inbox"><img src="{% static 'mail/inbox.png' %}">Inbox</button>
+                <button class="left-text btn btn-sm nav-link" id="sent"><img src="{% static 'mail/sent-email.png' %}">Sent</button>
+                <button class="left-text btn btn-sm nav-link" id="archived"><img src="{% static 'mail/archive.png' %}">Archived</button>
+                <a class="left-text btn-sm nav-link" href="{% url 'logout' %}"><img src="{% static 'mail/logout.png' %}">Log Out</a>
             </nav>
         </div>
         <div class="main-content">
@@ -20,8 +20,9 @@
                 <!-- https://www.w3schools.com/django/django_add_image.php -->
                 <button id="back-button"><img src="{% static 'mail/back-button.png' %}"></button>
                 <div id="mailbox"></div>
-                <div id="dummyDivForRightNow"></div>
-                <div>{{ request.user.email }}</div>
+                <input id="search" placeholder="Search..."></input>
+                <div id="user">{{ request.user.email }}</div>
+                <div id="profile-photo"><img src="{% static 'mail/profile-2.png' %}"></div>
             </div>
 
             <div id="emails-view">
