@@ -3,11 +3,11 @@
 
 {% block body %}
 
+    {% if message %}
+    <div class="alert alert-primary">{{ message }}</div>
+    {% endif %}
     <div class="login-container">
         <div id="login-form">
-            {% if message %}
-                <div>{{ message }}</div>
-            {% endif %}
             <h2 class="centered-text">Login</h2>
             <hr>
             <form action="{% url 'login' %}" method="post">
