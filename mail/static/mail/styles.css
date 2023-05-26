@@ -5,7 +5,7 @@ textarea {
     display: flex;
     display: row;
     border: .5px black solid;
-    margin: 2px;
+    /* margin: 2px; */
     max-height: 50px;
     overflow-y: hidden;
 }
@@ -80,10 +80,47 @@ img{
     /* border-radius: 10px; */
     border: .5px solid black;
     border-radius: 10px;
+    padding-left: 20px;
 
 }
-#profile-photo{
-    
+.login-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+/* Set icon and input next to each other using flexbox. */
+.icon-container{
+    display: flex;
+}
+/* Set padding the same for image and input (align). Image is not inside input.... */
+.icon-container > input{
+    padding: 10px;
+}
+.custom-icon{
+    background: #ededed;
+    padding: 10px;
+    margin-right: 0px;
+    border-radius: 5px;
+}
+/* */
+#login-form{
+    height: 30%;
+    width: 25%;
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Aligning_Items_in_a_Flex_Container */
+    /* align-self is used for individual flex-items */
+    align-self: center;
+    /* Looks a bit off when completely in the middle. */
+    margin-bottom: 20%;
+    box-shadow: 1px 3px 10px #888888;
+    padding: 30px;
+}
+input.btn {
+    width: 100%;
+}
+.centered-text{
+    text-align: center;
 }
 /* .inbox-email:nth-child(1){
     flex-grow: 1;
